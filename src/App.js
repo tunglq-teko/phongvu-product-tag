@@ -1,28 +1,21 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
+import React from 'react';
 import './App.css';
+import { Layout } from 'antd';
+import DefaultLayout from 'views/DefaultLayout.js';
+const { Header, Content } = Layout;
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
-  }
+function App() {
+  return <Layout>
+    <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
+      <img alt={'phongvu-icon'} src={require('./asset/phongvu-icon.png')} style={{ height: '80%' }} />
+      <h1 style={{ display: 'inline', fontSize: '30px', color: 'white' }} className="mx-4 align-middle">
+        Price Tag
+      </h1>
+    </Header>
+    <Content style={{ padding: '0 50px', marginTop: 64, height: '100vh', backgroundColor: 'white' }}>
+      <DefaultLayout />
+    </Content>
+  </Layout>
 }
 
 export default App;
