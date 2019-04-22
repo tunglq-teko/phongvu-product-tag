@@ -1,27 +1,50 @@
-import React, { useState } from 'react';
-import { Dropdown, Menu, Icon } from 'antd';
+import React, { Fragment, useState } from 'react';
+import { Typography, Col, Row } from 'antd';
+import { PriceTagSizes } from 'constant/PriceTagSize';
+import { PreviewProduct, PreviewSize } from './PreviewSelector';
+import PreviewPriceTag from './PreviewPriceTag';
+import {PriceTagSize} from 'constant/PriceTagSize';
+
+const { Text } = Typography;
 
 function PriceTagTab(props) {
-  const { selectedProducts } = props;
-  const [selectedProduct, setSelectedProduct] = useState('Chọn sản phẩm để xem preview');
-  const menu = (
-    <Menu>
-      {selectedProducts.map(product => {
-        return <Menu.Item onClick={() => setSelectedProduct(product.name)}>{product.name}</Menu.Item>;
-      })}
-    </Menu>
-  );
+  const { selectedProducts, setPriceTagsToPrint } = props;
+  const [preview, setPreview] = useState({
+    product: {
+      key: 1, sku: '123213', name: 'lót chuột'
+    },
+    size: PriceTagSize(70, 100)
+  });
+
+  const updatePreviewProduct = product => {
+    setPreview({ ...preview, product });
+  };
+
+  const updatePreviewSize = size => {
+    setPreview({ ...preview, size });
+  };
 
   return (
-    <div>
-      <Dropdown overlay={menu}>
-        <a className="ant-dropdown-link" href="#">
-          {selectedProduct} <Icon type="down" />
-        </a>
-      </Dropdown>
-      <div className='bg-info' style={{height: 800, width: '100%'}}></div>
-    </div>
+    <Fragment>
+      <Col className="row justify-content-between">
+        <Col className="row ml-1">
+          <Text strong className="pt-1 pr-2">
+            Sản phẩm
+          </Text>
+          <PreviewProduct selectedProducts={selectedProducts} updatePreviewProduct={updatePreviewProduct} />
+        </Col>
+        <Col>
+          <Text strong className="pt-1 pr-2">
+            Kích thước
+          </Text>
+          <PreviewSize sizes={PriceTagSizes} updatePreviewSize={updatePreviewSize} />
+        </Col>
 
+        <Row className="mt-2" style={{ width: '105%' }}>
+          <PreviewPriceTag preview={preview} setPriceTagsToPrint={setPriceTagsToPrint} />
+        </Row>
+      </Col>
+    </Fragment>
   );
 }
 

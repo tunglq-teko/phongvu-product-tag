@@ -1,21 +1,16 @@
 import React from 'react';
 import './App.css';
-import { Layout } from 'antd';
-import DefaultLayout from 'views/DefaultLayout.js';
-const { Header, Content } = Layout;
+import DefaultLayout from 'views/DefaultLayout';
+import PrintPriceTag from 'views/PriceTag/Print';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 function App() {
-  return <Layout>
-    <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
-      <img alt={'phongvu-icon'} src={require('./asset/phongvu-icon.png')} style={{ height: '80%' }} />
-      <h1 style={{ display: 'inline', fontSize: '30px', color: 'white' }} className="mx-4 align-middle">
-        Price Tag
-      </h1>
-    </Header>
-    <Content style={{ padding: '0 50px', marginTop: 64, height: '100vh', backgroundColor: 'white' }}>
-      <DefaultLayout />
-    </Content>
-  </Layout>
+  return (
+    <Router>
+      <Route exact path="/" component={DefaultLayout} />
+      <Route path="/print" component={PrintPriceTag} />
+    </Router>
+  );
 }
 
 export default App;
