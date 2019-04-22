@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Layout } from 'antd';
 import ProductList from 'views/Product/ProductList';
-import PriceTagTab from 'views/PriceTag/PriceTagTab';
+import Preview from 'views/Preview';
 import { fetchProducts } from 'service/product';
 const { Header, Content } = Layout;
 
@@ -18,7 +18,7 @@ function DefaultLayout(props) {
       setProducts(fetchedProducts);
     });
   }, []);
-  console.log('DEBUG', products)
+
   return (
     <Layout>
       <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
@@ -33,7 +33,7 @@ function DefaultLayout(props) {
             <ProductList data={products} setSelectedProducts={setSelectedProducts} />
           </div>
           <div className="ml-4" style={{ width: '67%', height: '100vh' }}>
-            <PriceTagTab selectedProducts={selectedProducts} />
+            <Preview selectedProducts={selectedProducts} />
           </div>
         </div>
       </Content>

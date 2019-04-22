@@ -1,13 +1,12 @@
-import React, { Fragment, useState } from 'react';
-import { Typography, Col, Row } from 'antd';
-import { PriceTagSizes } from 'constant/PriceTagSize';
+import React, { useState, Fragment } from 'react';
+import { Col, Row, Typography } from 'antd';
 import { PreviewProduct, PreviewSize } from './PreviewSelector';
-import PreviewPriceTag from './PreviewPriceTag';
-import {PriceTagSize} from 'constant/PriceTagSize';
+import PreviewProductTag from './PreviewProductTag';
+import { PriceTagSize, PriceTagSizes } from 'constant/PriceTagSize';
 
 const { Text } = Typography;
 
-function PriceTagTab(props) {
+function Preview(props) {
   const { selectedProducts, setPriceTagsToPrint } = props;
   const [preview, setPreview] = useState({
     product: {
@@ -41,11 +40,11 @@ function PriceTagTab(props) {
         </Col>
 
         <Row className="mt-2" style={{ width: '105%' }}>
-          <PreviewPriceTag preview={preview} setPriceTagsToPrint={setPriceTagsToPrint} />
+          <PreviewProductTag preview={preview} setPriceTagsToPrint={setPriceTagsToPrint} />
         </Row>
       </Col>
     </Fragment>
   );
 }
 
-export default PriceTagTab;
+export default Preview;
