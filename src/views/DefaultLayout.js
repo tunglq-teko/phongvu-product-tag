@@ -1,23 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Layout } from 'antd';
 import ProductList from 'views/Product/ProductList';
 import Preview from 'views/Preview';
-import { fetchProducts } from 'service/product';
+
 const { Header, Content } = Layout;
 
-function DefaultLayout(props) {
-  const [products, setProducts] = useState([]);
-  const [selectedProducts, setSelectedProducts] = useState([]);
+function DefaultLayout({location}) {
+  const params = new URLSearchParams(location.search);
+  const skuQueries = params.get("sku");
+  const skuList = skuQueries ? skuQueries.split(',') : [];
 
-  useEffect(() => {
-    const fetch = async () => {
-      const fetchedProducts = await fetchProducts();
-      return fetchedProducts;
-    };
-    fetch().then(fetchedProducts => {
-      setProducts(fetchedProducts);
-    });
-  }, []);
+  const [selectedProducts, setSelectedProducts] = useState([]);
 
   return (
     <Layout>
@@ -29,10 +22,10 @@ function DefaultLayout(props) {
       </Header>
       <Content style={{ padding: '0 50px', marginTop: 64, height: '100vh', backgroundColor: 'white' }}>
         <div className="container-fluid row m-2">
-          <div className="p-4" style={{ width: '30%' }}>
-            <ProductList data={products} setSelectedProducts={setSelectedProducts} />
+          <div style={{ width: '30%' }}>
+            <ProductList {...{skuList, setSelectedProducts}} />
           </div>
-          <div className="ml-4" style={{ width: '67%', height: '100vh' }}>
+          <div className="mt-4 ml-4" style={{ width: '67%', height: '100vh' }}>
             <Preview selectedProducts={selectedProducts} />
           </div>
         </div>

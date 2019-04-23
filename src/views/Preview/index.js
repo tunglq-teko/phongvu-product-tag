@@ -2,17 +2,15 @@ import React, { useState, Fragment } from 'react';
 import { Col, Row, Typography } from 'antd';
 import { PreviewProduct, PreviewSize } from './PreviewSelector';
 import PreviewProductTag from './PreviewProductTag';
-import { PriceTagSize, PriceTagSizes } from 'constant/PriceTagSize';
+import {  PriceTagSizes } from 'constant/PriceTagSize';
 
 const { Text } = Typography;
 
 function Preview(props) {
   const { selectedProducts, setPriceTagsToPrint } = props;
   const [preview, setPreview] = useState({
-    product: {
-      key: 1, sku: '123213', name: 'lót chuột'
-    },
-    size: PriceTagSize(70, 100)
+    product: {},
+    size: {}
   });
 
   const updatePreviewProduct = product => {
