@@ -4,8 +4,7 @@ import { Typography, Tooltip, Icon } from 'antd';
 
 const { Text } = Typography;
 
-function Description(props) {
-  const { description, removeDescription } = props;
+function Description({ description, removeDescription }) {
   const [background, setBackgound] = useState(false);
   return (
     <Tooltip onClick={() => removeDescription(description)} placement="right" title="click to remove">
@@ -19,15 +18,18 @@ function Description(props) {
 
 function DescriptionList(props) {
   const [descriptions, setDescriptions] = useState(props.descriptions);
+  const { editProductDescription } = props;
   const removeDescription = removedDescription => {
-    setDescriptions(descriptions.filter(d => d !== removedDescription));
+    const newDescriptions = descriptions.filter(d => d !== removedDescription);
+    setDescriptions(newDescriptions)
+    editProductDescription(newDescriptions);
   };
 
   return (
     <Fragment>
       {descriptions &&
         descriptions.map((description, index) => (
-          <Description key={index} description={description} removeDescription={removeDescription} />
+          <Description key={index} description={description} removeDescription={removeDescription}/>
         ))}
     </Fragment>
   );
@@ -83,8 +85,7 @@ function Price({ finalPrice, price }) {
   );
 }
 
-function ProductTag(props) {
-  const { size, product } = props;
+function ProductTag({ size, product, updateProduct }) {
   const StyledForm = styled.div`
     border-style: double;
     height: ${size.height}mm;
@@ -93,6 +94,10 @@ function ProductTag(props) {
     font-family: Times New Roman;
   `;
 
+  const editProductDescription = (descriptions) => {
+    updateProduct({...product, descriptions});
+  };
+
   return (
     <StyledForm className="mx-auto">
       <StyledHead className="d-flex">
@@ -100,7 +105,7 @@ function ProductTag(props) {
           className="my-1 ml-1"
           src={require('asset/phongvu-icon.png')}
           alt="phongvu-logo"
-          style={{ height: '80%', maxHeight: `${0.2*size.height}mm` }}
+          style={{ height: '80%', maxHeight: `${0.2 * size.height}mm` }}
         />
         <StyledName className="mx-auto">{product.name}</StyledName>
         <Price {...product} />
@@ -108,7 +113,7 @@ function ProductTag(props) {
 
       <StyledBody className="mx-auto mt-4">
         <div className="mt-2 mh-100" style={{ overflowY: 'auto', fontSize: '12pt' }}>
-          <DescriptionList descriptions={product.descriptions} />
+          <DescriptionList descriptions={product.descriptions} editProductDescription={editProductDescription} />
         </div>
         <StyledSKU>
           <strong>sku:</strong> {product.sku}
@@ -132,6 +137,7 @@ const StyledBody = styled.div`
   height: 70%;
   width: 90%;
   position: relative;
+  font-weight: 550;
 `;
 
 const StyledHead = styled.div`

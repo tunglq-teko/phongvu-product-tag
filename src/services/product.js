@@ -24,7 +24,6 @@ const filterProduct = product => {
 
 export const fetchProducts = async (skuList) => {
   const url = tekshop_sku + skuList.join(',');
-  console.log(url);
   const response = await fetch(url);
   const data = await response.json();
   const products = data.data.map(product => filterProduct(product));
@@ -984,5 +983,3 @@ export const skus = [
   '1703288',
   '1703473'
 ];
-
-const test_sku = skus.slice(0, 50);

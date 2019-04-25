@@ -17,7 +17,7 @@ const columns = [
     width: '100px'
   },
   {
-    title: 'Name',
+    title: 'Product name',
     dataIndex: 'name'
   }
 ];
@@ -28,16 +28,15 @@ function ProductList({ skuList, setSelectedProducts }) {
 
   useEffect(() => {
     const skuChunks = splitArrayToChunks(skuList, 10);
-    console.log(skuChunks);
+
     const fetch = async () => {
-      let res = [];
+      let fetching = [];
       for (const skuChunk of skuChunks) {
-        // eslint-disable-next-line no-loop-func
-        fetchProducts(skuChunk).then(data => {
-          res = res.concat(data);
-          setProducts(res);
-        });
+        fetching.push(fetchProducts(skuChunk))
       }
+      let fetchedData = await Promise.all(fetching);
+      let products = [].concat(...fetchedData);
+      setProducts(products)
     };
     fetch();
   }, []);
@@ -52,11 +51,9 @@ function ProductList({ skuList, setSelectedProducts }) {
       columns={columns}
       dataSource={products}
       bordered={true}
-      scroll={{ x: false, y: 800 }}
+      scroll={{ x: false, y: 795 }}
       loading={products.length === 0 && skuList.length > 0}
-      pagination={{
-        position: 'top'
-      }}
+      pagination={false}
       onRow={(record, rowIndex) => {
         return {
           onDoubleClick: event => {
