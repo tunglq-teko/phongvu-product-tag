@@ -1,14 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { connect } from 'react-redux';
 import { Table } from 'antd';
-import { fetchProducts, skus } from 'services/product';
-
-const splitArrayToChunks = (arr, chunkSize) => {
-  const res = [];
-  for (let i = 0; i < arr.length; i += chunkSize) {
-    res.push(arr.slice(i, i + chunkSize));
-  }
-  return res;
-};
+import { PRINT_PRODUCTS_UPDATE } from 'actions/types';
 
 const columns = [
   {
@@ -22,47 +15,38 @@ const columns = [
   }
 ];
 
-function ProductList({ skuList, setSelectedProducts }) {
-  const [products, setProducts] = useState([]);
-  skuList = skus.slice(0, 100);
-
-  useEffect(() => {
-    const skuChunks = splitArrayToChunks(skuList, 10);
-
-    const fetch = async () => {
-      let fetching = [];
-      for (const skuChunk of skuChunks) {
-        fetching.push(fetchProducts(skuChunk))
-      }
-      let fetchedData = await Promise.all(fetching);
-      let products = [].concat(...fetchedData);
-      setProducts(products)
-    };
-    fetch();
-  }, []);
-
-  return (
-    <Table
-      rowSelection={{
-        onChange: (selectedRowKeys, selectedRows) => {
-          setSelectedProducts(selectedRows);
-        }
-      }}
-      columns={columns}
-      dataSource={products}
-      bordered={true}
-      scroll={{ x: false, y: 795 }}
-      loading={products.length === 0 && skuList.length > 0}
-      pagination={false}
-      onRow={(record, rowIndex) => {
-        return {
-          onDoubleClick: event => {
-            console.log(`Click on row ${rowIndex}`);
+class ProductList extends React.Component {
+  render() {
+    const { products, skuList, printProducts } = this.props;
+    return (
+      <Table
+        rowSelection={{
+          onChange: (selectedRowKeys, selectedRows) => {
+            const updatePrintProducts = selectedRows.map(product => {
+              const index = printProducts.findIndex(e => e.key === product.key);
+              return isNaN(index) ? printProducts[index] : product;
+            });
+            this.props.updatePrintProducts(updatePrintProducts);
           }
-        };
-      }}
-    />
-  );
+        }}
+        columns={columns}
+        dataSource={products}
+        bordered={true}
+        scroll={{ x: false, y: 795 }}
+        loading={products.length === 0 && skuList.length > 0}
+        pagination={false}
+      />
+    );
+  }
 }
 
-export default ProductList;
+const mapStateToProps = state => ({
+  products: state.products,
+  printProducts: state.print.products
+});
+
+const mapDispatchToProps = dispatch => ({
+  updatePrintProducts: products => dispatch({ type: PRINT_PRODUCTS_UPDATE, data: products })
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductList);

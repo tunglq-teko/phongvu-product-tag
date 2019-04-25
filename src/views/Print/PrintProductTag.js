@@ -1,15 +1,15 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import ProductTag from 'components/ProductTag';
 
 function PrintProductTag({ printData, setPrintData }) {
   if (!printData) return null;
   // setPrintData(null);
   return (
-    <Fragment>
+    <div className="d-flex flex-wrap p-1" style={{ width: '210mm' }}>
       {printData.products.map((product, index) => (
-        <ProductTag key={index} product={product} size={printData.size} />
+        <ProductTag className="my-1" key={index} product={product} size={printData.size} />
       ))}
-    </Fragment>
+    </div>
   );
 }
 

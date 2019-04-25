@@ -5,14 +5,15 @@ const { Option } = Select;
 
 function PreviewProduct(props) {
   const { selectedProducts, updatePreviewProduct } = props;
-  const handleChange = index => {
+  const handleChange = key => {
+    const index = selectedProducts.findIndex(e => e.key === key);
     updatePreviewProduct(selectedProducts[index]);
   };
 
   return (
     <Select defaultValue="Chọn sản phẩm" style={{ width: 300 }} onChange={handleChange}>
-      {selectedProducts.map((product, index) => (
-        <Option key={index} value={index}>
+      {selectedProducts.map(product => (
+        <Option key={product.key} value={product.key}>
           {product.name}
         </Option>
       ))}

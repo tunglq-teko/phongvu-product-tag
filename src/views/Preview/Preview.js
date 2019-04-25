@@ -1,59 +1,64 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState, Fragment, useEffect } from 'react';
 import { Col, Row, Typography } from 'antd';
+import { connect } from 'react-redux';
 import { PreviewProduct, PreviewSize } from './PreviewSelector';
 import PreviewProductTag from './PreviewProductTag';
+import { PRINT_SIZE_UPDATE, PRINT_PRODUCTS_UPDATE } from 'actions/types';
 import { PriceTagSizes } from 'constant/PriceTagSize';
 
 const { Text } = Typography;
 
-function Preview({ selectedProducts, setSelectedProducts, setPrintData }) {
-  const [preview, setPreview] = useState({
-    product: {},
-    size: {}
-  });
+function Preview({ size, updateSize, products, updateProducts }) {
+  const [previewProduct, setPreviewProduct] = useState();
+  const [reset, forceReset] = useState(1);
 
-  const updatePreviewProduct = product => {
-    setPreview({ ...preview, product });
-  };
+  useEffect(() => {
+    if (previewProduct && products.findIndex(e => e.sku === previewProduct.sku) === -1) {
+      setPreviewProduct(null);
+      forceReset(-reset);
+    }
+  }, [products]);
 
-  const updatePreviewSize = size => {
-    setPreview({ ...preview, size });
-  };
+const updatePreviewProduct = product => {
+  let index = products.findIndex(element => element.name === product.name);
+  let updated = products.slice();
+  updated[index] = product;
+  setPreviewProduct(product);
+  updateProducts(updated);
+};
 
-  const updateProduct = product => {
-    let index = selectedProducts.findIndex(element => element.name === product.name);
-    let updated = selectedProducts.slice();
-    updated[index] = product;
-    updatePreviewProduct(product);
-    setSelectedProducts(updated);
-  };
-
-  const saveToPrint = callback => {
-    setPrintData({size: preview.size, products: selectedProducts});
-  }
-
-  return (
-    <Fragment>
-      <Col className="row justify-content-between">
-        <Col className="row ml-1">
-          <Text strong className="pt-1 pr-2">
-            Sản phẩm
+return (
+  <Fragment>
+    <Col className="row justify-content-between">
+      <Col className="row ml-1">
+        <Text strong className="pt-1 pr-2">
+          Sản phẩm
           </Text>
-          <PreviewProduct {...{ selectedProducts, updatePreviewProduct }} />
-        </Col>
-        <Col>
-          <Text strong className="pt-1 pr-2">
-            Kích thước
-          </Text>
-          <PreviewSize sizes={PriceTagSizes} updatePreviewSize={updatePreviewSize} />
-        </Col>
-
-        <Row className="mt-2" style={{ width: '105%' }}>
-          <PreviewProductTag {...{ preview, updateProduct, saveToPrint }} />
-        </Row>
+        <PreviewProduct key={reset} selectedProducts={products} updatePreviewProduct={setPreviewProduct} />
       </Col>
-    </Fragment>
-  );
+      <Col>
+        <Text strong className="pt-1 pr-2">
+          Kích thước
+          </Text>
+        <PreviewSize sizes={PriceTagSizes} updatePreviewSize={updateSize} />
+      </Col>
+
+      <Row className="mt-2" style={{ width: '105%' }}>
+        <PreviewProductTag preview={{ size: size, product: previewProduct }} updateProduct={updatePreviewProduct} />
+      </Row>
+    </Col>
+  </Fragment>
+);
 }
 
-export default Preview;
+const mapStateToProps = state => ({
+  size: state.print.size,
+  products: state.print.products
+})
+
+const mapDispatchToProps = dispatch => ({
+  updateSize: size => dispatch({ type: PRINT_SIZE_UPDATE, data: size }),
+  updateProducts: products => dispatch({ type: PRINT_PRODUCTS_UPDATE, data: products })
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Preview);

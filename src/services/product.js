@@ -30,6 +30,24 @@ export const fetchProducts = async (skuList) => {
   return products;
 };
 
+const splitArrayToChunks = (arr, chunkSize) => {
+  const res = [];
+  for (let i = 0; i < arr.length; i += chunkSize) {
+    res.push(arr.slice(i, i + chunkSize));
+  }
+  return res;
+};
+
+export const fetchProductsByChunks = async (skuList) => {
+  const skuChunks = splitArrayToChunks(skuList, 10);
+  const fetching = [];
+  for (const skuChunk of skuChunks) {
+    fetching.push(fetchProducts(skuChunk))
+  }
+  const fetchedData = await Promise.all(fetching);
+  return [].concat(...fetchedData);
+};
+
 export const skus = [
   '1801272',
   '1801274',
