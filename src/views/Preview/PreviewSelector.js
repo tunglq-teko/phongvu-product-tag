@@ -10,6 +10,15 @@ function PreviewProduct(props) {
     updatePreviewProduct(selectedProducts[index]);
   };
 
+  if (selectedProducts.length === 1) {
+    const product = selectedProducts[0];
+    handleChange(product.key);
+    return (
+      <Select value={product.name} style={{ width: 300 }}>
+      </Select>
+    );
+  }
+
   return (
     <Select defaultValue="Chọn sản phẩm" style={{ width: 300 }} onChange={handleChange}>
       {selectedProducts.map(product => (

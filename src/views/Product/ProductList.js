@@ -21,13 +21,16 @@ class ProductList extends React.Component {
     return (
       <Table
         rowSelection={{
+          selectedRowKeys: printProducts.map(product => product.sku),
           onChange: (selectedRowKeys, selectedRows) => {
             const updatePrintProducts = selectedRows.map(product => {
               const index = printProducts.findIndex(e => e.key === product.key);
               return isNaN(index) ? printProducts[index] : product;
             });
             this.props.updatePrintProducts(updatePrintProducts);
-          }
+          },
+          fixed: true,
+          hideDefaultSelections: true
         }}
         columns={columns}
         dataSource={products}

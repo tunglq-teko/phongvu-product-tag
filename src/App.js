@@ -8,7 +8,7 @@ function App() {
   return (
     <Router>
       <Switch>
-        {/* <Route path="/print" render={props => <PrintProductTag {...props} />} /> */}
+        <Route path="/print" component={PrintProductTag} />
         <Route path="/" component={DefaultLayout} />
       </Switch>
     </Router>

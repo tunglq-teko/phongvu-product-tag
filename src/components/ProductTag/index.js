@@ -21,7 +21,7 @@ function DescriptionList(props) {
   const { editProductDescription } = props;
   const removeDescription = removedDescription => {
     const newDescriptions = descriptions.filter(d => d !== removedDescription);
-    setDescriptions(newDescriptions)
+    setDescriptions(newDescriptions);
     editProductDescription(newDescriptions);
   };
 
@@ -29,7 +29,7 @@ function DescriptionList(props) {
     <Fragment>
       {descriptions &&
         descriptions.map((description, index) => (
-          <Description key={index} description={description} removeDescription={removeDescription}/>
+          <Description key={index} description={description} removeDescription={removeDescription} />
         ))}
     </Fragment>
   );
@@ -85,7 +85,7 @@ function Price({ finalPrice, price }) {
   );
 }
 
-function ProductTag({ size, product, updateProduct }) {
+function ProductTag({ size, product, updateProduct, rotate }) {
   const StyledForm = styled.div`
     border-style: double;
     height: ${size.height}mm;
@@ -94,11 +94,17 @@ function ProductTag({ size, product, updateProduct }) {
     font-family: Times New Roman;
   `;
 
-  const editProductDescription = (descriptions) => {
-    updateProduct({...product, descriptions});
+  const StyledRotatedForm = styled.div`
+    height: ${size.width}mm;
+    width: ${size.height}mm;
+    padding: 0;
+  `;
+
+  const editProductDescription = descriptions => {
+    updateProduct({ ...product, descriptions });
   };
 
-  return (
+  const Form = (
     <StyledForm className="mx-auto">
       <StyledHead className="d-flex">
         <img
@@ -122,6 +128,16 @@ function ProductTag({ size, product, updateProduct }) {
       </StyledBody>
     </StyledForm>
   );
+
+  if (rotate) {
+    return (
+      <StyledRotatedForm>
+        <div style={{ transform: 'rotate(90deg)' }}>{Form}</div>
+      </StyledRotatedForm>
+    );
+  }
+
+  return Form;
 }
 
 const StyledSKU = styled.div`

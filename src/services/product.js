@@ -1,7 +1,7 @@
 import { tekshop_sku } from './apis';
+import { decodeHTML, splitArrayToChunks } from 'utils';
 
-const breaklines = /\n|<br>|<br\/>|<span>|<\/span>/;
-
+const breaklines = /\n|<br>|<br\/>|<span>|<\/span>|- |\+ |<p>|<\/p>/g;
 
 const filterProduct = product => {
   const result = {};
@@ -11,18 +11,24 @@ const filterProduct = product => {
   result.price = Number(product.price);
   result.finalPrice = product.final_price;
   result.key = product.sku;
-  const parseDescription = (rawDescription) => {
+  const parseDescription = rawDescription => {
     if (!rawDescription) return [];
+    rawDescription = decodeHTML(rawDescription);
+    rawDescription = rawDescription.replace(/- /g, '\n- ');
     const brDescriptions = rawDescription.split(breaklines);
-    const trimmedDescriptions = brDescriptions.map(line => line.trim());
-    const filteredEmptyLines = trimmedDescriptions.filter(line => line.length > 1);
+    const trimmedDescriptions = brDescriptions.map(line => {
+      let trimmed = line.trim();
+      if (trimmed[0] !== '-') trimmed = '- ' + trimmed;
+      return trimmed;
+    });
+    const filteredEmptyLines = trimmedDescriptions.filter(line => line.length > 2);
     return filteredEmptyLines;
-  }
-  result.descriptions = parseDescription(product.description)
+  };
+  result.descriptions = parseDescription(product.description);
   return result;
 };
 
-export const fetchProducts = async (skuList) => {
+export const fetchProducts = async skuList => {
   const url = tekshop_sku + skuList.join(',');
   const response = await fetch(url);
   const data = await response.json();
@@ -30,19 +36,11 @@ export const fetchProducts = async (skuList) => {
   return products;
 };
 
-const splitArrayToChunks = (arr, chunkSize) => {
-  const res = [];
-  for (let i = 0; i < arr.length; i += chunkSize) {
-    res.push(arr.slice(i, i + chunkSize));
-  }
-  return res;
-};
-
-export const fetchProductsByChunks = async (skuList) => {
+export const fetchProductsByChunks = async skuList => {
   const skuChunks = splitArrayToChunks(skuList, 10);
   const fetching = [];
   for (const skuChunk of skuChunks) {
-    fetching.push(fetchProducts(skuChunk))
+    fetching.push(fetchProducts(skuChunk));
   }
   const fetchedData = await Promise.all(fetching);
   return [].concat(...fetchedData);

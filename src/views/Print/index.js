@@ -1,3 +1,3 @@
-import {PrintProductTag} from './PrintProductTag';
+import PrintProductTag from './PrintProductTag';
 
 export default PrintProductTag;
