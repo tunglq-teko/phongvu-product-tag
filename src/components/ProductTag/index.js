@@ -111,21 +111,22 @@ function ProductTag({ size, product, updateProduct, rotate }) {
           className="my-1 ml-1"
           src={require('asset/phongvu-icon.png')}
           alt="phongvu-logo"
-          style={{ height: '80%', maxHeight: `${0.2 * size.height}mm` }}
+          style={{ height: '18mm' }}
         />
         <StyledName className="mx-auto">{product.name}</StyledName>
         <Price {...product} />
       </StyledHead>
 
-      <StyledBody className="mx-auto mt-4">
-        <div className="mt-2 mh-100" style={{ overflowY: 'auto', fontSize: '12pt' }}>
+      <StyledBody className="mx-auto mt-2">
+        <div className="mt-2 mh-100" style={{ fontSize: '12pt' }}>
           <DescriptionList descriptions={product.descriptions} editProductDescription={editProductDescription} />
         </div>
-        <StyledSKU>
-          <strong>sku:</strong> {product.sku}
-        </StyledSKU>
-        <Warranty {...product} />
       </StyledBody>
+
+      <StyledSKU>
+        <strong>sku:</strong> {product.sku}
+      </StyledSKU>
+      <Warranty {...product} />
     </StyledForm>
   );
 
@@ -144,21 +145,22 @@ const StyledSKU = styled.div`
   position: absolute;
   right: 0px;
   bottom: 0px;
-  z-index: 2;
-  background-color: white;
+  background-color: transparent;
   font-size: 15pt;
+  margin-right: 2mm;
 `;
 
 const StyledBody = styled.div`
   height: 70%;
-  width: 90%;
+  width: 95%;
   position: relative;
   font-weight: 550;
+  overflow-y: auto;
 `;
 
 const StyledHead = styled.div`
   width: 100%;
-  height: 20%;
+  min-height: 20mm;
   background-color: #3d5eb8;
   position: relative;
 `;

@@ -13,13 +13,13 @@ function PreviewProduct({ selectedProducts, previewProduct, updatePreviewProduct
     const {key, name} = selectedProducts[0];
     handleChange(key);
     return (
-      <Select value={name} style={{ width: 300 }}>
+      <Select value={name} style={{ width: 500 }}>
       </Select>
     );
   }
 
   return (
-    <Select defaultValue="Chọn sản phẩm" style={{ width: 300 }} onChange={handleChange}>
+    <Select defaultValue="Chọn sản phẩm" style={{ width: 500 }} onChange={handleChange}>
       {selectedProducts.map(product => (
         <Option key={product.key} value={product.key}>
           {product.name}
