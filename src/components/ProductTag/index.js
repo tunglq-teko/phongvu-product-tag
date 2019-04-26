@@ -7,7 +7,7 @@ const { Text } = Typography;
 function Description({ description, removeDescription }) {
   const [background, setBackgound] = useState(false);
   return (
-    <Tooltip onClick={() => removeDescription(description)} placement="right" title="click to remove">
+    <Tooltip onClick={() => removeDescription(description)} placement="right" title="Xóa">
       <Text onMouseOver={() => setBackgound(true)} onMouseOut={() => setBackgound(false)} type={background && 'danger'}>
         {description}
       </Text>
@@ -20,9 +20,10 @@ function DescriptionList(props) {
   const [descriptions, setDescriptions] = useState(props.descriptions);
   const { editProductDescription } = props;
   const removeDescription = removedDescription => {
-    const newDescriptions = descriptions.filter(d => d !== removedDescription);
-    setDescriptions(newDescriptions);
-    editProductDescription(newDescriptions);
+    const index = descriptions.findIndex(d => d === removedDescription);
+    descriptions.splice(index, 1);
+    setDescriptions(descriptions);
+    editProductDescription(descriptions);
   };
 
   return (
