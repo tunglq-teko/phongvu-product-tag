@@ -3,18 +3,17 @@ import { Select } from 'antd';
 
 const { Option } = Select;
 
-function PreviewProduct(props) {
-  const { selectedProducts, updatePreviewProduct } = props;
+function PreviewProduct({ selectedProducts, previewProduct, updatePreviewProduct }) {
   const handleChange = key => {
     const index = selectedProducts.findIndex(e => e.key === key);
     updatePreviewProduct(selectedProducts[index]);
   };
 
-  if (selectedProducts.length === 1) {
-    const product = selectedProducts[0];
-    handleChange(product.key);
+  if (selectedProducts.length && !previewProduct) {
+    const {key, name} = selectedProducts[0];
+    handleChange(key);
     return (
-      <Select value={product.name} style={{ width: 300 }}>
+      <Select value={name} style={{ width: 300 }}>
       </Select>
     );
   }

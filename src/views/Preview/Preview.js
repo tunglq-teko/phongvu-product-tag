@@ -33,7 +33,12 @@ function Preview({ size, updateSize, products, updateProducts }) {
           <Text strong className="pt-1 pr-2">
             Sản phẩm
           </Text>
-          <PreviewProduct key={reset} selectedProducts={products} updatePreviewProduct={setPreviewProduct} />
+          <PreviewProduct
+            key={reset}
+            selectedProducts={products}
+            previewProduct={previewProduct}
+            updatePreviewProduct={setPreviewProduct}
+          />
         </Col>
         <Col>
           <Text strong className="pt-1 pr-2">

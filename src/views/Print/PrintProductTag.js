@@ -5,7 +5,7 @@ import { splitArrayToChunks } from 'utils';
 
 function Page({ size, products }) {
   return (
-    <div className="d-flex flex-wrap justify-content-center" style={{ pageBreakAfter: 'always' }}>
+    <div className="d-flex flex-wrap justify-content-center" style={{ pageBreakAfter: 'always', pointerEvents: 'none' }}>
       {products.map(product => (
         <div
           className="m-1 p-0"
