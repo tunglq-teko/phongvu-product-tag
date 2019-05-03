@@ -1,7 +1,7 @@
 import React from 'react';
 import { Layout } from 'antd';
 import { connect } from 'react-redux';
-import ProductList from 'views/Product/ProductList';
+import { ProductList } from 'views/Product';
 import { PRODUCTS_FETCHED } from 'actions/types';
 import { fetchProductsByChunks } from 'services/product';
 import { skus } from 'services/product';
@@ -12,23 +12,22 @@ const { Header, Content } = Layout;
 class DefaultLayout extends React.Component {
   state = {
     skuList: []
-  }
+  };
 
   componentDidMount() {
     const params = new URLSearchParams(this.props.location.search);
-    const skuQueries = params.get("sku");
+    const skuQueries = params.get('sku');
     if (skuQueries) {
       this.setState({ skuList: skuQueries.split(',') });
     } else {
-      this.setState({ skuList: skus.slice(0, 150) });
+      this.setState({ skuList: skus.slice(0, 500) });
     }
   }
 
   componentDidUpdate() {
-    fetchProductsByChunks(this.state.skuList)
-      .then(products => {
-        this.props.fetchProducts(products);
-      });
+    fetchProductsByChunks(this.state.skuList).then(products => {
+      this.props.fetchProducts(products);
+    });
   }
 
   render() {
@@ -57,6 +56,9 @@ class DefaultLayout extends React.Component {
 
 const mapDispatchToProps = dispatch => ({
   fetchProducts: products => dispatch({ type: PRODUCTS_FETCHED, data: products })
-})
+});
 
-export default connect(null, mapDispatchToProps)(DefaultLayout);
+export default connect(
+  null,
+  mapDispatchToProps
+)(DefaultLayout);

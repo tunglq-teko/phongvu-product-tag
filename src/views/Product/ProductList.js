@@ -23,11 +23,11 @@ class ProductList extends React.Component {
         rowSelection={{
           selectedRowKeys: printProducts.map(product => product.sku),
           onChange: (selectedRowKeys, selectedRows) => {
-            const updatePrintProducts = selectedRows.map(product => {
+            const updatedPrintProducts = selectedRows.map(product => {
               const index = printProducts.findIndex(e => e.key === product.key);
               return isNaN(index) ? printProducts[index] : product;
             });
-            this.props.updatePrintProducts(updatePrintProducts);
+            this.props.updatePrintProducts(updatedPrintProducts);
           },
           fixed: true,
           hideDefaultSelections: true

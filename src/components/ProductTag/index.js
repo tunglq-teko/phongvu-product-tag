@@ -48,7 +48,7 @@ function Warranty({ warranty }) {
   return (
     <StyledWarranty>
       <Icon type="safety" />
-      Bảo hành {warranty} tháng
+      <Text strong>Bảo hành {warranty} tháng</Text>
     </StyledWarranty>
   );
 }
@@ -125,7 +125,8 @@ function ProductTag({ size, product, updateProduct, rotate }) {
       </StyledBody>
 
       <StyledSKU>
-        <strong>sku:</strong> {product.sku}
+        <Text strong>sku:</Text>
+        <Text>{product.sku}</Text>
       </StyledSKU>
       <Warranty {...product} />
     </StyledForm>

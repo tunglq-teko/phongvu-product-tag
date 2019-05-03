@@ -9,6 +9,7 @@ function App() {
     <Router>
       <Switch>
         <Route path="/print" component={PrintProductTag} />
+        <Route path="/product-tag" component={DefaultLayout} />
         <Route path="/" component={DefaultLayout} />
       </Switch>
     </Router>

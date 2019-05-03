@@ -30,10 +30,14 @@ const filterProduct = product => {
 
 export const fetchProducts = async skuList => {
   const url = tekshop_sku + skuList.join(',');
-  const response = await fetch(url);
-  const data = await response.json();
-  const products = data.data.map(product => filterProduct(product));
-  return products;
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+    const products = data.data.map(product => filterProduct(product));
+    return products;
+  } catch (error) {
+    return [];
+  }
 };
 
 export const fetchProductsByChunks = async skuList => {

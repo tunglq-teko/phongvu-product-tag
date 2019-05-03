@@ -5,11 +5,9 @@ import { splitArrayToChunks } from 'utils';
 
 function Page({ size, products }) {
   return (
-    <div className="d-flex flex-wrap justify-content-center" style={{ pageBreakAfter: 'always', pointerEvents: 'none' }}>
+    <div className="page-to-print d-flex flex-wrap">
       {products.map(product => (
-        <div
-          className="m-1 p-0"
-          key={product.key}>
+        <div key={product.key} style={{ padding: 0, margin: '0.5mm' }}>
           <ProductTag {...{ product, size, rotate: size.rotation }} />
         </div>
       ))}
@@ -19,7 +17,8 @@ function Page({ size, products }) {
 
 class PrintProductTag extends React.Component {
   render() {
-    const { products, size } = this.props;
+    const { products, size, history } = this.props;
+    if (products.length === 0) history.push('/');
     const itemsPerPage = size ? size.itemsPerPage : null;
     const productChunks = splitArrayToChunks(products, itemsPerPage);
     return (

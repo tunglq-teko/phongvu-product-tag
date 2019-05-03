@@ -9,8 +9,8 @@ export function PriceTagSize(height, width, itemsPerPage = 1, rotation = false) 
 }
 
 export const PriceTagSizes = [
-  PriceTagSize(70, 100, 8),
-  PriceTagSize(100, 120, 6),
-  PriceTagSize(90, 100, 8),
+  PriceTagSize(70, 100, 6),
+  PriceTagSize(100, 120, 4, true),
+  PriceTagSize(90, 100, 6),
   PriceTagSize(68, 237, 3, true)
 ];
