@@ -20,7 +20,7 @@ class DefaultLayout extends React.Component {
     if (skuQueries) {
       this.setState({ skuList: skuQueries.split(',') });
     } else {
-      this.setState({ skuList: skus.slice(0, 500) });
+      // this.setState({ skuList: skus.slice(0, 500) });
     }
   }
 

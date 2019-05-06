@@ -101,6 +101,40 @@ function ProductTag({ size, product, updateProduct, rotate }) {
     padding: 0;
   `;
 
+  const StyledSKU = styled.div`
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+    background-color: transparent;
+    font-size: 15pt;
+    margin-right: 2mm;
+  `;
+
+  const StyledBody = styled.div`
+    height: 70%;
+    width: 95%;
+    position: relative;
+    font-weight: 550;
+    overflow-y: auto;
+  `;
+
+  const StyledHead = styled.div`
+    width: 100%;
+    min-height: 20mm;
+    background-color: #3d5eb8;
+    position: relative;
+  `;
+
+  const StyledName = styled.h3`
+    position: relative;
+    top: 0;
+    transform: translateY(10px);
+    width: 80%;
+    color: white;
+    font-size: 14pt;
+    font-weight: bold;
+  `;
+
   const editProductDescription = descriptions => {
     updateProduct({ ...product, descriptions });
   };
@@ -142,40 +176,6 @@ function ProductTag({ size, product, updateProduct, rotate }) {
 
   return Form;
 }
-
-const StyledSKU = styled.div`
-  position: absolute;
-  right: 0px;
-  bottom: 0px;
-  background-color: transparent;
-  font-size: 15pt;
-  margin-right: 2mm;
-`;
-
-const StyledBody = styled.div`
-  height: 70%;
-  width: 95%;
-  position: relative;
-  font-weight: 550;
-  overflow-y: auto;
-`;
-
-const StyledHead = styled.div`
-  width: 100%;
-  min-height: 20mm;
-  background-color: #3d5eb8;
-  position: relative;
-`;
-
-const StyledName = styled.h3`
-  position: relative;
-  top: 0;
-  transform: translateY(10px);
-  width: 80%;
-  color: white;
-  font-size: 14pt;
-  font-weight: bold;
-`;
 
 export { Description, DescriptionList };
 
