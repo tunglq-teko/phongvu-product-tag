@@ -85,6 +85,7 @@ function Price({ finalPrice, price }) {
 }
 
 function Gift({ gifts }) {
+  if (!gifts || !gifts.length) return null;
   const StyledGift = styled.div`
     color: red;
     font-size: 13pt;
