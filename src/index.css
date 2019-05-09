@@ -13,6 +13,18 @@ code {
     monospace;
 }
 
+.custom-hover-blue:hover {
+  color:  #3399ff;
+}
+
+.custom-hover-red:hover {
+  color: #b30000;
+}
+
+.custom-hover-strong:hover {
+  font-weight: bold;
+}
+
 * {
   box-sizing: border-box;
   -moz-box-sizing: border-box;

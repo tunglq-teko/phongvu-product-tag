@@ -11,6 +11,7 @@ const filterProduct = product => {
   result.price = Number(product.price);
   result.finalPrice = product.final_price;
   result.key = product.sku;
+  result.gifts = product.gifts;
   const parseDescription = rawDescription => {
     if (!rawDescription) return [];
     rawDescription = decodeHTML(rawDescription);
@@ -51,6 +52,10 @@ export const fetchProductsByChunks = async skuList => {
 };
 
 export const skus = [
+  '19010295',
+  '19010028',
+  '18110382',
+  '1809163',
   '1801272',
   '1801274',
   '1801273',

@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { ProductList } from 'views/Product';
 import { PRODUCTS_FETCHED } from 'actions/types';
 import { fetchProductsByChunks } from 'services/product';
+// eslint-disable-next-line no-unused-vars
 import { skus } from 'services/product';
 import Preview from 'views/Preview';
 
@@ -18,16 +19,14 @@ class DefaultLayout extends React.Component {
     const params = new URLSearchParams(this.props.location.search);
     const skuQueries = params.get('sku');
     if (skuQueries) {
-      this.setState({ skuList: skuQueries.split(',') });
+      this.setState({ skuList: skuQueries.split(',') }, () => {
+        fetchProductsByChunks(this.state.skuList).then(products => {
+          this.props.fetchProducts(products);
+        });
+      });
     } else {
       // this.setState({ skuList: skus.slice(0, 500) });
     }
-  }
-
-  componentDidUpdate() {
-    fetchProductsByChunks(this.state.skuList).then(products => {
-      this.props.fetchProducts(products);
-    });
   }
 
   render() {

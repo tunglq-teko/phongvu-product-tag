@@ -5,12 +5,9 @@ import { Typography, Tooltip, Icon } from 'antd';
 const { Text } = Typography;
 
 function Description({ description, removeDescription }) {
-  const [background, setBackgound] = useState(false);
   return (
     <Tooltip onClick={() => removeDescription(description)} placement="right" title="Xóa">
-      <Text onMouseOver={() => setBackgound(true)} onMouseOut={() => setBackgound(false)} type={background && 'danger'}>
-        {description}
-      </Text>
+      <Text className="custom-hover-red">{description}</Text>
       <br />
     </Tooltip>
   );
@@ -21,9 +18,9 @@ function DescriptionList(props) {
   const { editProductDescription } = props;
   const removeDescription = removedDescription => {
     const index = descriptions.findIndex(d => d === removedDescription);
-    descriptions.splice(index, 1);
-    setDescriptions(descriptions);
-    editProductDescription(descriptions);
+    const updatedDescriptions = [...descriptions.slice(0, index), ...descriptions.slice(index + 1)];
+    setDescriptions(updatedDescriptions);
+    editProductDescription(updatedDescriptions);
   };
 
   return (
@@ -69,6 +66,7 @@ function Price({ finalPrice, price }) {
     line-height: 36px;
     font-size: 15pt;
     font-weight: bold;
+    z-index: 2;
   `;
   const StyledOldPrice = styled(Text)`
     position: absolute !important;
@@ -83,6 +81,29 @@ function Price({ finalPrice, price }) {
         {price && price !== finalPrice ? <StyledOldPrice delete>{price.toLocaleString()} VNĐ</StyledOldPrice> : null}
       </StyledPrice>
     </Fragment>
+  );
+}
+
+function Gift({ gifts }) {
+  const StyledGift = styled.div`
+    color: red;
+    font-size: 13pt;
+    border-radius: 0px 0px 0px 20px;
+    box-shadow: 0 2px 5px 0px grey; //#e3e5ec;
+  `;
+  return (
+    <StyledGift className="d-flex flex-row p-2 m-0 w-100">
+      <div className="d-flex mr-2 align-items-center">
+        <img alt={'gift-icon'} src={require('asset/gift.png')} style={{ height: '25px' }} />
+      </div>
+      <ul style={{ display: 'inline', listStyle: 'none' }} className="p-0 m-0">
+        {gifts.map((gift, index) => (
+          <li key={index} className="m-0">
+            &#10004;{`${gift.quantity} ${gift.name}`}
+          </li>
+        ))}
+      </ul>
+    </StyledGift>
   );
 }
 
@@ -116,6 +137,7 @@ function ProductTag({ size, product, updateProduct, rotate }) {
     position: relative;
     font-weight: 550;
     overflow-y: auto;
+    overflow-x: hidden;
   `;
 
   const StyledHead = styled.div`
@@ -153,6 +175,7 @@ function ProductTag({ size, product, updateProduct, rotate }) {
       </StyledHead>
 
       <StyledBody className="mx-auto mt-2">
+        <Gift gifts={product.gifts} />
         <div className="mt-2 mh-100" style={{ fontSize: '12pt' }}>
           <DescriptionList descriptions={product.descriptions} editProductDescription={editProductDescription} />
         </div>
