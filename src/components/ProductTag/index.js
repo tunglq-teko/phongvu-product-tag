@@ -88,7 +88,7 @@ function Gift({ gifts }) {
   const StyledGift = styled.div`
     color: red;
     font-size: 13pt;
-    border-radius: 0px 0px 20px 20px;
+    border-radius: 0px 0px 0px 20px;
     box-shadow: 0 2px 5px 0px grey; //#e3e5ec;
   `;
   return (
