@@ -85,11 +85,10 @@ function Price({ finalPrice, price }) {
 }
 
 function Gift({ gifts }) {
-  if (!gifts || !gifts.length) return null;
   const StyledGift = styled.div`
     color: red;
     font-size: 13pt;
-    border-radius: 0px 0px 0px 20px;
+    border-radius: 0px 0px 20px 20px;
     box-shadow: 0 2px 5px 0px grey; //#e3e5ec;
   `;
   return (
@@ -176,7 +175,7 @@ function ProductTag({ size, product, updateProduct, rotate }) {
       </StyledHead>
 
       <StyledBody className="mx-auto mt-2">
-        <Gift gifts={product.gifts} />
+        {product.gifts && product.gifts.length ? <Gift gifts={product.gifts} /> : null}
         <div className="mt-2 mh-100" style={{ fontSize: '12pt' }}>
           <DescriptionList descriptions={product.descriptions} editProductDescription={editProductDescription} />
         </div>
