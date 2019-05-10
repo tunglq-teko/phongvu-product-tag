@@ -3,7 +3,7 @@ import { Layout } from 'antd';
 import { connect } from 'react-redux';
 import { ProductList } from 'views/Product';
 import { PRODUCTS_FETCHED } from 'actions/types';
-import { fetchProductsByChunks } from 'services/product';
+import { fetchProducts } from 'services/product';
 // eslint-disable-next-line no-unused-vars
 import { skus } from 'services/product';
 import Preview from 'views/Preview';
@@ -20,12 +20,10 @@ class DefaultLayout extends React.Component {
     const skuQueries = params.get('sku');
     if (skuQueries) {
       this.setState({ skuList: skuQueries.split(',') }, () => {
-        fetchProductsByChunks(this.state.skuList).then(products => {
-          this.props.fetchProducts(products);
+        fetchProducts(this.state.skuList).then(products => {
+          this.props.dispatchFetchedProducts(products);
         });
       });
-    } else {
-      // this.setState({ skuList: skus.slice(0, 500) });
     }
   }
 
@@ -54,7 +52,7 @@ class DefaultLayout extends React.Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  fetchProducts: products => dispatch({ type: PRODUCTS_FETCHED, data: products })
+  dispatchFetchedProducts: products => dispatch({ type: PRODUCTS_FETCHED, data: products })
 });
 
 export default connect(

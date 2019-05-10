@@ -3,19 +3,16 @@ import { Select } from 'antd';
 
 const { Option } = Select;
 
-function PreviewProduct({ selectedProducts, previewProduct, updatePreviewProduct }) {
+function PreviewProductSelector({ selectedProducts, previewProduct, updatePreviewProduct }) {
   const handleChange = key => {
     const index = selectedProducts.findIndex(e => e.key === key);
     updatePreviewProduct(selectedProducts[index]);
   };
 
   if (selectedProducts.length && !previewProduct) {
-    const {key, name} = selectedProducts[0];
+    const { key, name } = selectedProducts[0];
     handleChange(key);
-    return (
-      <Select value={name} style={{ width: 500 }}>
-      </Select>
-    );
+    return <Select value={name} style={{ width: 500 }} />;
   }
 
   return (
@@ -29,14 +26,15 @@ function PreviewProduct({ selectedProducts, previewProduct, updatePreviewProduct
   );
 }
 
-function PreviewSize(props) {
-  const { updatePreviewSize, sizes } = props;
+function PreviewSizeSelector({ updatePreviewSize, sizes, selectedSize }) {
   const handleChange = index => {
     updatePreviewSize(sizes[index]);
   };
-
   return (
-    <Select defaultValue="Chọn kích thước" style={{ width: 300 }} onChange={handleChange}>
+    <Select
+      defaultValue={(selectedSize ? selectedSize.toString() : null) || 'Chọn kích thước'}
+      style={{ width: 300 }}
+      onChange={handleChange}>
       {sizes.map((size, index) => (
         <Option key={index} value={index}>
           {size.toString()}
@@ -46,4 +44,4 @@ function PreviewSize(props) {
   );
 }
 
-export { PreviewProduct, PreviewSize };
+export { PreviewSizeSelector, PreviewProductSelector };

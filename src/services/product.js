@@ -29,8 +29,8 @@ const filterProduct = product => {
   return result;
 };
 
-export const fetchProducts = async skuList => {
-  const url = tekshop_sku + skuList.join(',');
+export const fetchProductsByChunks = async skuList => {
+  const url = `${tekshop_sku}${skuList.join(',')}`;
   try {
     const response = await fetch(url);
     const data = await response.json();
@@ -41,11 +41,11 @@ export const fetchProducts = async skuList => {
   }
 };
 
-export const fetchProductsByChunks = async skuList => {
+export const fetchProducts = async skuList => {
   const skuChunks = splitArrayToChunks(skuList, 10);
   const fetching = [];
   for (const skuChunk of skuChunks) {
-    fetching.push(fetchProducts(skuChunk));
+    fetching.push(fetchProductsByChunks(skuChunk));
   }
   const fetchedData = await Promise.all(fetching);
   return [].concat(...fetchedData);

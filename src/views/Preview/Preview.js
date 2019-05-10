@@ -1,10 +1,10 @@
 import React, { useState, Fragment, useEffect } from 'react';
 import { Col, Row, Typography } from 'antd';
 import { connect } from 'react-redux';
-import { PreviewProduct, PreviewSize } from './PreviewSelector';
+import { PreviewProductSelector, PreviewSizeSelector } from './Selectors';
 import PreviewProductTag from './PreviewProductTag';
-import { PRINT_SIZE_UPDATE, PRINT_PRODUCTS_UPDATE } from 'actions/types';
 import { PriceTagSizes } from 'constant/PriceTagSize';
+import { PRINT_SIZE_UPDATE, PRINT_PRODUCTS_UPDATE } from 'actions/types';
 
 const { Text } = Typography;
 
@@ -33,7 +33,7 @@ function Preview({ size, updateSize, products, updateProducts }) {
           <Text strong className="pt-1 pr-2">
             Sản phẩm
           </Text>
-          <PreviewProduct
+          <PreviewProductSelector
             key={reset}
             selectedProducts={products}
             previewProduct={previewProduct}
@@ -44,7 +44,7 @@ function Preview({ size, updateSize, products, updateProducts }) {
           <Text strong className="pt-1 pr-2">
             Kích thước
           </Text>
-          <PreviewSize sizes={PriceTagSizes} updatePreviewSize={updateSize} />
+          <PreviewSizeSelector sizes={PriceTagSizes} updatePreviewSize={updateSize} selectedSize={size}/>
         </Col>
 
         <Row className="mt-2" style={{ width: '105%' }}>
